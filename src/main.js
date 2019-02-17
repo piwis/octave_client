@@ -13,7 +13,7 @@ Vue.config.productionTip = false
 Vue.use(new VueSocketIO({
     debug: true,
     // Mettre le server nodejs
-    connection: 'http://55ff4128.ngrok.io',
+    connection: 'https://octaserve.suriteka.website',
     vuex: {
         // store,
         // actionPrefix: 'SOCKET_',
