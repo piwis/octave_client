@@ -29,8 +29,7 @@
 
         sockets: {
 
-
-            isereView: function (data) {
+            isereView: function () {
                 // emit
                 this.$router.push('isere')
 
@@ -39,17 +38,10 @@
 
         methods: {
 
-            startIntroduction() {
-                this.$router.push('isere')
-                this.$socket.emit(Events.startIntroduction, true)
-            }
 
         },
 
         mounted() {
-            this.$socket.emit(Events.startIntroduction, true)
-
-
         }
 
     };
