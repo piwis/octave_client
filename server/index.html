@@ -1,0 +1,49 @@
+<html>
+<head>
+    <title>Chat avec Socket.IO</title>
+    <style>
+    </style>
+</head>
+<body>
+
+<ul id="messages"></ul>
+
+<form action="">
+    <input id="m" autocomplete="off"/>
+    <button>Envoyer</button>
+</form>
+
+<script src="//cdn.socket.io/socket.io-1.2.0.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.js"></script>
+
+<script>
+    var socket = io();
+
+    socket.connect("http://310cc3bc.ngrok.io")
+
+    socket.on('connect', function () {
+        console.log('Client has connected to the server!');
+    });
+    // Add a connect listener
+    socket.on('customEmit', function (data) {
+        console.log("Je reçois");
+        socket.emit('customEmit', "Salut");
+    });
+    // Add a disconnect listener
+    socket.on('disconnect', function () {
+        //console.log('The client has disconnected!');
+    });
+    //
+    // $('form').submit(function(){
+    //     socket.emit('chatMessage', $('#m').val());
+    //     $('#m').val('');
+    //     return false;
+    // });
+
+    // socket.on('chatMessage', function(msg){
+    //     $('#messages').append($('<li>').text(msg));
+    // });
+</script>
+
+</body>
+</html>

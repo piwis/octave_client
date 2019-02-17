@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css?family=Muli:200,300,700');
+$dark-blue: #0b075a;
+$white: #FFFFFF;
+$black: #000000;
+$red: #ff7f81;
+$purple: #4f65eb;
+$dark-red: #3a0000;
+
+
+$screen-xs: 480px;
+$screen-xs-max: 640px;
+$screen-sm: 991px;
+
+@mixin f-muli-light() {
+  font-family: "Muli";
+  font-weight: 200;
+  font-style: normal;
+}
+@mixin f-muli-extra-light() {
+  font-family: "Muli";
+  font-weight: 300;
+  font-style: normal;
+}
+@mixin f-muli-bold() {
+  font-family: "Muli";
+  font-weight: 700;
+  font-style: normal;
+}
+
+@import "./_btn.scss";
+@import "../general.scss";
+
+
