@@ -42,7 +42,7 @@
         mounted() {
 
             var canvas = document.getElementById('canvas')
-            QRCode.toCanvas(canvas, 'http://b2ff08f9.ngrok.io', function (error) {
+            QRCode.toCanvas(canvas, 'https://octave.suriteka.website/', function (error) {
                 if (error) console.error(error)
                 console.log('success!');
             })
