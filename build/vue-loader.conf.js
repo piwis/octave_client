@@ -16,7 +16,5 @@ module.exports = {
     source: 'src',
     img: 'src',
     image: 'xlink:href'
-  },
-  hotReload: true// disables Hot Reload
-
+  }
 }

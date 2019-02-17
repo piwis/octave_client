@@ -96,36 +96,43 @@ class Slide {
 
 // The navigation class. Controls the .boxnav animations (e.g. pagination animation).
 class Navigation {
-    constructor(el, settings, slide) {
+    constructor(el, settings) {
         this.DOM = {el: el};
 
-        this.slide = slide;
         this.settings = {
             next: () => {return false;},
-            prev: () => {return false;},
-            nextDots: () => {return false;}
+            prev: () => {return false;}
         }
         Object.assign(this.settings, settings);
 
         // Navigation controls (prev and next)
         this.DOM.prevCtrl = document.querySelector('.boxnav__item--prev');
         this.DOM.nextCtrl = document.querySelector('.boxnav__item--next');
-        this.DOM.dots = document.querySelectorAll('.dots-item');
-
         // The current and total pages elements.
         this.DOM.pagination = {
-            current: document.querySelector('.boxnav__label--current'),
-            total: document.querySelector('.boxnav__label--total')
+            current: this.DOM.el.querySelector('.boxnav__label--current'),
+            total: this.DOM.el.querySelector('.boxnav__label--total')
         };
         this.initEvents();
     }
     // Updates the current page element value.
     // Animate the element up, update the value and finally animate it in from bottom up.
-    setCurrent(isCurrent = true) {
-        this.DOM.el.classList[isCurrent ? 'add' : 'remove']('slide--current');
-    }
-    setCurrentDots(val, isCurrent = true) {
-        this.DOM.dots[val].classList[isCurrent ? 'add' : 'remove']('current');
+    setCurrent(val, direction) {
+        //this.DOM.pagination.current.innerHTML = val;
+        TweenMax.to(this.DOM.pagination.current, 0.4, {
+            ease: 'Back.easeIn',
+            y: direction === 'right' ? '-100%' : '100%',
+            opacity: 0,
+            onComplete: () => {
+                this.DOM.pagination.current.innerHTML = val;
+                TweenMax.to(this.DOM.pagination.current, 0.8, {
+                    ease: 'Expo.easeOut',
+                    startAt: {y: direction === 'right' ? '50%' : '-50%', opacity: 0},
+                    y: '0%',
+                    opacity: 1
+                });
+            }
+        });
     }
     // Sets the total pages value.
     setTotal(val) {
@@ -135,13 +142,6 @@ class Navigation {
     initEvents() {
         this.DOM.prevCtrl.addEventListener('click', () => this.settings.prev());
         this.DOM.nextCtrl.addEventListener('click', () => this.settings.next());
-
-        this.DOM.dots.forEach((item,index) => {
-            item.addEventListener('click', (e) => {
-                e.preventDefault();
-                this.slide.navigateDots(index);
-            });
-        })
     }
 }
 
@@ -152,9 +152,8 @@ export default class Slideshow {
         // Initialize the navigation instance. When clicking the next or prev ctrl buttons, trigger the navigate function.
         this.navigation = new Navigation(document.querySelector('.boxnav'), {
             next: () => this.navigate('right'),
-            prev: () => this.navigate('left'),
-            nextDots: (index) => this.navigateDots(index)
-        }, this);
+            prev: () => this.navigate('left')
+        });
 
         // The slides.
         this.slides = [];
@@ -190,39 +189,24 @@ export default class Slideshow {
         this.initEvents();
     }
     initEvents() {
+        // Open the details boxes.
+        //this.DOM.detailsCtrl.addEventListener('click', () => this.openDetailsBoxes());
     }
     openDetailsBoxes() {
         if ( this.isAnimating ) return;
         this.isAnimating = true;
+
+        // Overlay
+        //this.DOM.el.classList.add('slideshow--details');
+
+        //this.DOM.detailsWrap.classList.add('details-wrap--open');
+        //this.DOM.details[this.current].classList.add('details--current');
+        //this.slides[this.current].showDetails().then(() => this.isAnimating = false);
     }
-    navigateDots(index) {
-        // If animating return.
-        if ( this.isAnimating ) return;
-        if(index === this.current) return;
-        this.isAnimating = true;
-
-        // The next/prev slide´s position.
-        const nextSlidePos = index
-        // Close the details boxes (if open) and then hide the current slide and show the next/previous one.
-        this.closeDetailsBoxes().then(() => {
-            // Update the current page element.
-
-            this.navigation.setCurrentDots(nextSlidePos, true);
-            Promise.all([this.slides[this.current].hide(), this.slides[nextSlidePos].show()])
-                .then(() => {
-                    // Update current.
-                    this.slides[this.current].setCurrent(false);
-                    this.current = nextSlidePos;
-                    this.slides[this.current].setCurrent();
-                    this.isAnimating = false;
-                });
-        });
-
-    }
-
     closeDetailsBoxes() {
         return new Promise((resolve, reject) => {
             // Overlay.
+            console.log("COUCOU",this.slides,this.current);
             resolve()
         });
     }

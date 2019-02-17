@@ -31,7 +31,7 @@
                  * Quand l'user arrive sur le site
                  * Cela permet de quitter la page du qrCode
                  */
-                this.$socket.emit("clientTv", true)
+                this.$socket.emit("connectionTv", true)
             },
 
             startIntroduction() {

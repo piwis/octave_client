@@ -86,23 +86,6 @@
                   fill="black"/>
         </svg>
 
-<<<<<<< HEAD
-=======
-        <div v-if="!droneBack">
-            <div class="draggerBoundsCommand">
-                <div class="draggerCommand">Drag</div>
-            </div>
-            <div class="stop-drone" @click="backHomeDrone">
-                Gamma : {{this.posY}} <br>
-                Beta : {{this.posX}} <br>
-                {{this.posZ}}
-                Rentrer
-            </div>
-        </div>
-        <transition name="fade" mode="out-in">
-            <BackDrone v-if="backHome" @clicked="goHome"></BackDrone>
-        </transition>
->>>>>>> dfdf7f36be40e4e34a59c1d9142a556b786e65dc
 
         <transition name="fade" mode="out-in">
             <div class="fatigue" v-show="back">
@@ -120,7 +103,6 @@
 
     import {Draggable} from 'gsap/Draggable'
     import BackDrone from '@/components/BackDrone'
-    import * as UMath from "../utils/UMath";
 
     export default {
         name: 'choose-an-landscape',
@@ -151,82 +133,6 @@
         },
 
         methods: {
-<<<<<<< HEAD
-=======
-            pilotDrone() {
-                var w = document.querySelector(".draggerBoundsCommand").getBoundingClientRect().width;
-                var h = document.querySelector(".draggerBoundsCommand").getBoundingClientRect().height;
-
-                let that = this;
-                this.drag = Draggable.create(".draggerCommand", {
-                    type: "y",
-                    bounds: ".draggerBoundsCommand",
-                    onDrag: function () {
-                        calcPercent(w, h, this.x, this.y, that)
-                    }
-                    //onDrag: function(){calcPercent(this.x,this.y)}
-                });
-
-                function calcPercent(w, h, x, y, that) {
-
-                    let thatDrag = that;
-                    let Xpercent = normalize(Math.round(x / w * 100), 0, 80);
-                    let Ypercent = normalize(Math.round(y / h * 100), -80, 0);
-                    // Emit du le serveur
-                    if (Ypercent === 0.8) {
-                        // emit l'user prendre le controle du drone
-                    }
-                }
-
-                function normalize(val, max, min) { return (val - min) / (max - min); }
-            },
-            rotationScreen() {
-                var supportsOrientationChange = "onorientationchange" in window,
-                    orientationEvent = supportsOrientationChange ? "orientationchange" : "resize";
-
-                window.addEventListener(orientationEvent, () => {
-                    if (window.orientation === 90 || window.orientation === -90) {
-                        this.landscapeOrientation = true;
-                    } else {
-                        this.landscapeOrientation = false;
-                    }
-                }, false);
-            },
-
-            initGyroscope() {
-                var args = {
-                    frequency: 50,
-                    gravityNormalized: true,
-                    orientationBase: GyroNorm.GAME,
-                    decimalCount: 2,
-                    logger: null,
-                    screenAdjusted: false
-                };
-                var gn = new GyroNorm();
-                gn.init(args).then(() => {
-                    gn.start((data) => {
-                        if (this.landscapeOrientation) {
-                            if (data.do.gamma > -90 && data.do.gamma < 0 && data.do.beta < 100 && data.do.beta > -100) {
-                                this.posY = UMath.normalize(data.do.gamma, 0, -90);
-                                this.posX = UMath.normalize(data.do.beta, -180, 180);
-                            } else if (data.do.gamma < 90 && data.do.gamma > 0  && data.do.beta < 100 && data.do.beta > -100) {
-                                this.posY = UMath.normalize(data.do.gamma, 0, 90);
-                                this.posX = UMath.normalize(data.do.beta, -180, 180);
-                            }
-                        } else {
-                            this.posX = data.do.gamma
-                        }
-
-
-                    });
-                }).catch(function (e) {
-                    console.log("Erreur", e);
-                });
-
-            },
-
-
->>>>>>> dfdf7f36be40e4e34a59c1d9142a556b786e65dc
             backHomeDrone() {
                 // Emit qui stop le drone en vol
                 this.backHome = true
@@ -245,19 +151,6 @@
 
         },
         mounted() {
-<<<<<<< HEAD
-=======
-
-            if (window.orientation === 90 || window.orientation === -90) {
-                this.landscapeOrientation = true;
-            } else {
-                this.landscapeOrientation = false;
-            }
-
-            this.pilotDrone();
-            this.rotationScreen();
-            this.initGyroscope();
->>>>>>> dfdf7f36be40e4e34a59c1d9142a556b786e65dc
         },
     }
 </script>
